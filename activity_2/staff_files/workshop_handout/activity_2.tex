@@ -1,0 +1,256 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb,amsfonts}
+\usepackage{tikz}
+
+\usepackage[all]{background}
+\usepackage[]{mcode}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{tcolorbox}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\MyGraphicLogo}{% For imported graphic logo
+\begin{tikzpicture}[remember picture,overlay,yshift=-2cm, xshift=2cm]
+  \node at (18,0) {\includegraphics[scale=0.5]{image.png}};
+ \end{tikzpicture}
+}
+ 
+\SetBgContents{\MyGraphicLogo}% Select included image
+\SetBgPosition{current page.north west}% Select location
+\SetBgOpacity{1.0}% Select opacity
+\SetBgAngle{0.0}% Select roation of logo
+\SetBgScale{1.0}% Select scale factor of logo
+
+\setlength{\parindent}{0pt}
+
+\begin{document}
+ 
+\title{Data Analysis Workshop - Activity 2}
+\author{}
+\date{}
+\maketitle
+
+\section*{Introduction}
+This activity is designed to be completed using MATLAB. You will be provided with a code snippet which will contain a working example. Your job is to modify this example code in order to complete the same task for a different data set.\\
+
+To get started:
+\begin{enumerate}
+\item You will need to log on to a virtual machine which has MATLAB on it - click on the green VM icon on the desktop of your computer
+\item Double click on the virtual machine called \textit{desktop}
+\item Once the virtual machine has loaded, open MATLAB from the windows \textit{Start} menu
+\end{enumerate}
+\vspace{0.5cm}
+The following is a table which lists the dataset file names for each activity and part.
+\begin{table}[h]
+\centering
+\begin{tabular}{l l l}
+\toprule
+\textbf{Part} & \textbf{Type} & \textbf{Filename}\\
+\midrule
+Part 1 & Example & \verb|energy_efficiency_data.csv|\\
+Part 1 & Task to Complete & \verb|car_data.csv|\\
+Part 2 & Example & \verb|car_data.csv|\\
+Part 2 & Task to Complete & \verb|energy_efficiency_data_east.csv|\\
+ & &  \verb|energy_efficiency_data_west.csv|\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{Part 1}
+\subsection*{The Task}
+This part should take you about 10 minutes or so, and is designed to get you familiar with estimating population parameters using confidence intervals in MATLAB.\\
+
+An example code snippet has been provided for a different data set. The code snippet can be found in the learning materials on Learnline, it is called \verb|activity2_part1_example.m|. This example code relies on a data set called \verb|energy_efficiency_data.csv|. The first thing you should do is to load \verb|activity2_part1_example.m| into MATLAB and run the script. Your job will be to create a similar script which modifies the example code to accept and run with a different data set.
+
+\subsection*{Overview of the Data Set}
+The dataset that you will use for this task is called \verb|car_data.csv|. It is a very simple data set based around fuel efficiency of cars from the US and cars from Japan. The first column in the data set is kilometres per litre for cars designed and manufactured in the U.S., and the second column is kilometres per litre for cars designed and manufactured in Japan.
+
+If you would like to know more about this data set, please visit the source:\\
+
+\verb|http://www.itl.nist.gov/div898/handbook/eda/section3/eda3531.htm|\\
+
+The data is provided in .csv format - note that sometimes you will have to format your own data prior to beginning your analysis. \textbf{There are code snippets for a similar exercise that you can use to help you with the MATLAB syntax that you need to use and to help you understand what to do.}
+
+\subsection*{Instructions}
+\begin{enumerate}
+\item Load the \verb|car_data.csv| data set into MATLAB. To do this you will need to modify the following example code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+% Load the .csv data into MATLAB and store it in a variable called data
+data = csvread('energy_efficiency_data.csv',1,0);
+\end{lstlisting}
+
+Note that the \verb|car_data.csv| dataset does not have names in the first row, so doesn't require the \verb|,1,0)| part. See the first activity for help if you get stuck.
+
+\item Create a single vector of fuel efficiency for the US data only. Call your vector \verb|u_fuel_eff|. You will need to modify the following code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+% Create a vector of data for the heating load
+heating_load = data(:,9);
+\end{lstlisting}
+
+\item Plot a histogram of the dataset to get an idea of the distribution. You need to modify the following code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+% Plot histogram for the heating load data
+histogram(heating_load)
+xlabel('Heating Load (Kilowatts)')
+ylabel('Frequency')
+\end{lstlisting}
+
+How many observations are there in your data? Is the variable we are looking at roughly normally distributed? Why are these things important to know prior to calculating the confidence interval?
+
+\item Calculate the mean of the vector and store this in a variable called \verb|xbar|. You will need to modify the following code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+% Find x-bar (the sample statistic for the mean)
+xbar = mean(heating_load)
+\end{lstlisting}
+
+\item Calculate the standard error - check the example code to help you with this. Call your standard error \verb|SEM|. You will need to modify the following code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+SEM = std(heating_load)/sqrt(length(heating_load));     % Standard Error
+\end{lstlisting}
+
+\item Calculate your t-scores (in a vector) for 2.5\% and 97.5\% - this will give you a 95\% confidence interval. Call your t score vector \verb|ts|. You will need to modify the following code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+ts = tinv([0.025  0.975],length(heating_load)-1);     % t-Score
+\end{lstlisting}
+
+\item Calculate the 95\% confidence interval for the true population mean. You will need to modify the following code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+CI = xbar + ts*SEM      % Confidence Intervals
+\end{lstlisting}
+
+\item How would you structure a sentence to report this confidence interval?
+\end{enumerate}
+
+\newpage
+
+\section*{Part 2}
+\subsection*{The Task}
+This part should take you about 10 minutes or so, and is designed to get you familiar with hypothesis testing of population parameters using two sample t-tests in MATLAB.\\
+
+An example code snippet has been provided for a different data set. The code snippet can be found in the learning materials on Learnline, it is called \verb|activity2_part2_example.m|. This example code relies on a data set called \verb|car_data.csv|. The first thing you should do is to load \verb|activity2_part2_example.m| into MATLAB and run the script. Your job will be to create a similar script which modifies the example code to accept and run with a different data set.
+
+\subsection*{Overview of the Data Set}
+The datasets that you will use for this task represents two samples:
+\begin{itemize}
+\item \verb|energy_efficiency_data_east.csv|
+\item \verb|energy_efficiency_data_west.csv|
+\end{itemize}
+The samples are from a larger data set, and the first sample is of easterly facing dwellings, and the second sample represents westerly facing dwellings. The larger data set comes from an energy analysis which was performed using 12 different building shapes simulated in Ecotect. The buildings differ with respect to the glazing area, the glazing area distribution, and the orientation, amongst other parameters. We simulate various settings as functions of the afore-mentioned characteristics to obtain 768 building shapes. The dataset comprises 768 samples and 8 features, aiming to predict two real valued responses.\\
+
+The datasets contains eight attributes and two responses (or outcomes). This variables listed across the columns are:
+\begin{table}[h]
+\begin{tabular}{p{2cm} p{12cm}}
+\toprule
+\textbf{Column} & \textbf{Variable} \\
+\midrule
+1 & Relative Compactness\\
+2 & Surface Area\\
+3 & Wall Area\\
+4 & Roof Area\\
+5 & Overall Height\\
+6 & Orientation\\
+7 & Glazing Area\\ 
+8 & Glazing Area Distribution\\
+9 & Heating Load (Measured Response)\\
+10 & Cooling Load (Measured Response)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+If you would like to know more about this data set, please visit the source:\\
+
+\verb|http://archive.ics.uci.edu/ml/datasets/Energy+efficiency|\\
+
+The data is provided in .csv format - note that sometimes you will have to format your own data prior to beginning your analysis. \textbf{There are code snippets for a similar exercise that you can use to help you with the MATLAB syntax that you need to use and to help you understand what to do.}
+
+\subsection*{Instructions}
+To complete this part of the activity, complete the following steps:
+\begin{enumerate}
+\item Load the 2 samples of data into MATLAB. We interested in the heating load for easterly facing buildings and westerly facing buildings. You will need to modify the following code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+% Load the .csv data into MATLAB and store it in a variable called data
+data = csvread('car_data.csv');
+\end{lstlisting}
+
+\begin{tcolorbox}
+\textbf{ANSWER}\\
+
+Note that this is a bit tricky because we are using two datasets (one for each sample). Your code should be:
+
+\verb|data1 = csvread('energy_efficiency_data_east.csv');|\\
+\verb|data2 = csvread('energy_efficiency_data_west.csv');|
+\end{tcolorbox}
+
+\item We need to create vectors of data which we would like to compare statistically. Create a vector for heating load for east facing buildings, and one for western facing buildings. You need to modify the following code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+% Seperate the samples into two variables us_cars and japanese_cars
+us_cars = data(:,1);
+japanese_cars = data(:,2);
+\end{lstlisting}
+
+You will need to determine which column the heating load is in - check the data overview.
+
+\item How many observations are in each data set? Why is this important? Create a side by side histogram plot of the two data sets to see their distributions. You will need to modify the following code snippet:
+\newpage
+\begin{lstlisting}
+% Plot histogram to get an understanding of the distribution
+subplot(1,2,1)
+histogram(us_cars,10) % histogram plot for easterly heat loading
+xlabel('Efficiency (km/L)')
+ylabel('Frequency')
+title('US')
+subplot(1,2,2)
+histogram(japanese_cars,10) % histogram plot for westerly heat loading
+xlabel('Efficiency (km/L)')
+ylabel('Frequency')
+title('Japan')
+\end{lstlisting}
+
+Why is it important to know what the distribution looks like? Is it appropriate to perform a two sample t-test?
+
+\item We would like to see if there is a statistically significant difference between the heating load for eastern facing buildings and western facing buildings. What would your null hypothesis be?\\
+
+$\quad H_0:$
+\vspace{0.2cm}
+
+\item We are running a two tailed test at the 5\% significance level. What is your alternative hypothesis?\\
+
+$\quad H_a:$
+\vspace{0.2cm}
+
+\item Run the two sample t-test. You need to modify the following code snippet:
+\vspace{-0.4cm}
+\begin{lstlisting}
+% Run the two sample t-test which provides a statistically indication
+% if the two samples are from the same or different populations
+% (That is, do the cars from japan perform the same as the cars
+% from the US in terms of fuel efficiency, statistically speaking)
+
+% The important value here is the p-value
+% low p-value means statistically different
+% high p-value means not statistically different
+
+[h,p,ci,stats] = ttest2(us_cars,japanese_cars)
+\end{lstlisting}
+
+\item What is your p-value?\\
+
+\verb|p-value:|
+\vspace{0.2cm}
+
+\item What is the conclusion of your statistical test? Write a sentence which accurately conveys your findings using appropriate language.
+\end{enumerate}
+
+\end{document}

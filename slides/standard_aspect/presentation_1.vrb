@@ -1,0 +1,12 @@
+\frametitle{Statistical Analysis}
+\textbf{Steps for Hypothesis Testing}\\
+\vspace{0.3cm}
+\textbf{STEP 6 - State an overall conclusion}
+\vspace{0.2cm}
+\begin{itemize}
+\item Once we have found the p-value, and made a statistical decision about the null hypothesis, we want to summarise our results into an overall conclusion for our test
+\vspace{0.2cm}
+\item Include a sentence starter on what you can say for rejection of null \verb|text|
+\vspace{0.2cm}
+\item Include a sentence starter on what you can say for failure to reject null \verb|text|
+\end{itemize}
