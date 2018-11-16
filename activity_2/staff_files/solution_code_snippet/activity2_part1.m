@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Code snippet for Activity 1 - Part 1
+% Code snippet for Activity 2 - Part 1
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Load the .csv data into MATLAB and store it in a variable called data
